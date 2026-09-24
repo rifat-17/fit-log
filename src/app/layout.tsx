@@ -4,6 +4,8 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import Banner from "./components/Banner";
 import Library from "./components/home-page/Library";
+import FitLogProvider from "@/context/FitLogContext";
+import { ToastContainer } from "react-toastify";
 
 
 const geistSans = Geist({
@@ -25,14 +27,18 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-     
+      data-theme="dark"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col" >
 
 
-        <Navbar />  
-        {children}
+
+        <FitLogProvider>
+          <Navbar />
+          {children}
+        </FitLogProvider>
+        <ToastContainer  />
 
       </body>
     </html>

@@ -2,7 +2,7 @@
 import { IWorkout } from '@/types/workout.type';
 import Image from 'next/image';
 import React from 'react';
-import { FaBookmark, FaPlus } from 'react-icons/fa';
+import WorkoutActions from './WorkoutActions';
 
 interface IWorkOutDetailsProps {
   params: Promise<{
@@ -45,7 +45,7 @@ const WorkOutDetails = async ({
 
   return (
     <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-16">
-      
+
       {/* Main Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
 
@@ -327,43 +327,11 @@ const WorkOutDetails = async ({
             </ol>
           </div>
 
-          {/* ================= CTA BUTTONS ================= */}
-          <div className="
-            flex
-            flex-col
-            sm:flex-row
-            gap-3
-            sm:gap-4
-            pt-2
-          ">
-
-            <button className="
-              btn
-              bg-lime-400
-              text-black
-              border-none
-              w-full
-              sm:flex-1
-              hover:bg-lime-500
-            ">
-              <FaPlus />
-              Add to today's plan
-            </button>
-
-            <button className="
-              btn
-              bg-black
-              text-white
-              border-none
-              w-full
-              sm:flex-1
-              hover:bg-gray-800
-            ">
-              <FaBookmark />
-              Save for later
-            </button>
-
+          <div>
+            {/* ================= CTA BUTTONS ================= */}
+            <WorkoutActions workout={workout} />
           </div>
+
 
         </div>
       </div>

@@ -1,108 +1,153 @@
-import Image from "next/image";
-import Link from "next/link";
+"use client";
+import Image from 'next/image';
+import Link from 'next/link';
 
-import Logo from "@/assets/logo.png";
+import Logo from '@/assets/logo.png';
+import { useFitlog } from '@/context/FitLogContext';
+
+
 
 const Navbar = () => {
-  // Navbar links
+
+  const { planWorkouts, savedWorkouts } = useFitlog();
+  
+
+  // Navigation links
   const navLinks = (
     <>
       <li>
-        <Link href="/">Workouts</Link>
+        <Link href="/" className="hover:text-[#ccff00]">
+          Workouts
+        </Link>
       </li>
+
       <li>
-        <Link href="/my-plan">My Plan</Link>
+        <Link href="/my-plan" className="hover:text-[#ccff00]">
+          My Plan
+        </Link>
       </li>
     </>
   );
 
   return (
-    <div className="navbar bg-base-100 shadow-sm">
-      {/* Logo + Mobile Menu */}
-      <div className="navbar-start">
-        {/* Mobile Menu */}
-        <div className="dropdown">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost lg:hidden"
-          >
-            <svg
-              aria-label="Menu"
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+    <header className="sticky top-0 z-50 bg-[#15171D] shadow-md">
+      <div className="navbar container mx-auto px-4">
+
+        {/* ================= LEFT: LOGO + MOBILE MENU ================= */}
+        <div className="navbar-start">
+
+          {/* Mobile Menu */}
+          <div className="dropdown lg:hidden">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-sm mr-1"
+              aria-label="Open menu"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
-            </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h8m-8 6h16"
+                />
+              </svg>
+            </div>
+
+            <ul
+              tabIndex={-1}
+              className="
+                menu
+                menu-sm
+                dropdown-content
+                z-50
+                mt-3
+                w-52
+                rounded-box
+                bg-[#222630]
+                p-2
+                shadow-xl
+              "
+            >
+              {navLinks}
+            </ul>
           </div>
 
-          <ul
-            tabIndex={-1}
-            className="menu menu-sm dropdown-content z-1 mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
+          {/* Logo */}
+          <Link
+            href="/"
+            className="flex items-center gap-2"
           >
+            <Image
+              src={Logo}
+              alt="FitLog Logo"
+              width={40}
+              height={40}
+              priority
+            />
+
+            <span className="text-lg font-bold sm:text-xl">
+              FIT LOG
+            </span>
+          </Link>
+        </div>
+
+        {/* ================= CENTER: DESKTOP NAVIGATION ================= */}
+        <div className="navbar-center hidden lg:flex">
+          <ul className="menu menu-horizontal gap-2">
             {navLinks}
           </ul>
         </div>
 
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <Image
-            src={Logo}
-            alt="Fit Log Logo"
-            width={40}
-            height={40}
-          />
+        {/* ================= RIGHT: PLAN + SAVED ================= */}
+        <div className="navbar-end">
 
-          <span className="text-xl font-bold">FIT LOG</span>
-        </Link>
-      </div>
+          <div className="flex items-center gap-2 sm:gap-3">
 
-      {/* Desktop Navigation */}
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-          {navLinks}
-        </ul>
-      </div>
+            {/* My Plan */}
+            <Link
+              href="/my-plan"
+              className="
+                badge
+                bg-[#ccff00]
+                px-3
+                py-3
+                font-semibold
+                text-black
+                hover:bg-[#b4e600]
+              "
+            >
+              Plan ({planWorkouts.length})
+            </Link>
 
-      {/* Right Side */}
-      <div className="navbar-end gap-4">
-        {/* Plan */}
-        <div className="flex items-center gap-1">
-          <Link
-            href="/my-plan"
-            className="badge bg-[#ccff00] text-black"
-          >
-            Plan
-          </Link>
+            {/* Saved */}
+            <Link
+              href="/my-plan"
+              className="
+                badge
+                badge-outline
+                px-3
+                py-3
+                font-semibold
+                text-white
+                hover:border-[#ccff00]
+                hover:text-[#ccff00]
+              "
+            >
+              Saved ({savedWorkouts.length})
+            </Link>
 
-          {/* <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#ccff00] text-xs font-bold text-black">
-            2
-          </span> */}
-        </div>
+          </div>
 
-        {/* Saved */}
-        <div className="flex items-center gap-1">
-          <Link
-            href="/my-plan"
-            className="badge badge-outline"
-          >
-            Saved
-          </Link>
-
-          {/* <span className="flex h-5 w-5 items-center justify-center rounded-full border border-base-content text-xs">
-            5
-          </span> */}
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 
