@@ -58,17 +58,15 @@ const Banner = () => {
           {/* Main Heading */}
           <h1
             className="
-                            text-3xl
+                            text-2xl
                             font-extrabold
                             leading-tight
-                            sm:text-4xl
-                            md:text-5xl
-                            xl:text-6xl
+                            sm:text-3xl
+                            md:text-4xl
+                            xl:text-5xl
                         "
           >
-            TRAIN WITH INTENT.
-            <br />
-            LOG EVERY SET.
+            TRAIN WITH INTENT.LOG <br /> EVERY SET.
           </h1>
 
 
@@ -129,8 +127,8 @@ const Banner = () => {
           <Image
             src={BannerImg}
             alt="Workout"
-            width={600}
-            height={500}
+            width={400}
+            height={300}
             priority
             className="
                             h-auto
@@ -140,7 +138,7 @@ const Banner = () => {
                             sm:max-w-sm
                             md:max-w-md
                             lg:max-w-lg
-                            xl:max-w-xl
+                            xl:max-w-lg
                         "
           />
         </div>
