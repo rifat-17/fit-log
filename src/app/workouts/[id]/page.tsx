@@ -1,8 +1,7 @@
+import Image from "next/image";
 
-import { IWorkout } from '@/types/workout.type';
-import Image from 'next/image';
-import React from 'react';
-import WorkoutActions from './WorkoutActions';
+import { IWorkout } from "@/types/workout.type";
+import WorkoutActions from "./WorkoutActions";
 
 interface IWorkOutDetailsProps {
   params: Promise<{
@@ -13,328 +12,315 @@ interface IWorkOutDetailsProps {
 const WorkOutDetails = async ({
   params,
 }: IWorkOutDetailsProps) => {
-  // Get workout ID
+
+  /* ================= GET WORKOUT ID ================= */
+
   const { id } = await params;
 
-  // Fetch workouts
+
+  /* ================= FETCH WORKOUTS ================= */
+
   const response = await fetch(
-    'https://api.abcz.workers.dev/api/fitlog'
+    "https://api.abcz.workers.dev/api/fitlog"
   );
 
   if (!response.ok) {
-    throw new Error('Failed to fetch workouts');
+    throw new Error("Failed to fetch workouts");
   }
 
   const workouts: IWorkout[] = await response.json();
 
-  // Find selected workout
+
+  /* ================= FIND WORKOUT ================= */
+
   const workout = workouts.find(
     (item) => item.id === Number(id)
   );
 
-  // Workout not found
+
+  /* ================= NOT FOUND ================= */
+
   if (!workout) {
     return (
-      <div className="container mx-auto px-4 py-10">
-        <h1 className="text-2xl sm:text-3xl font-bold">
-          Workout not found
-        </h1>
-      </div>
+      <section className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold sm:text-3xl">
+            Workout not found
+          </h1>
+
+          <p className="mt-2 text-sm text-gray-400">
+            The workout you are looking for does not exist.
+          </p>
+        </div>
+      </section>
     );
   }
 
+
   return (
-    <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-16">
+    <section className="container mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-16">
 
-      {/* Main Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+      {/* ================= MAIN CONTENT ================= */}
 
-        {/* ================= LEFT SIDE ================= */}
+      <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-2 lg:gap-12">
+
+        {/* ==================================================
+                    LEFT SIDE — WORKOUT IMAGE
+                ================================================== */}
+
         <div className="w-full">
-          <Image
-            src={workout.image}
-            alt={workout.name}
-            width={800}
-            height={800}
-            className="
-              w-full
-              h-[300px]
-              sm:h-[400px]
-              lg:h-[550px]
-              object-cover
-              rounded-xl
-              sm:rounded-2xl
-            "
-          />
+
+          <div className="overflow-hidden rounded-2xl bg-[#1C1F26]">
+
+            <Image
+              src={workout.image}
+              alt={workout.name}
+              width={800}
+              height={800}
+              priority
+              className="
+                                h-[280px]
+                                w-full
+                                object-cover
+                                sm:h-[400px]
+                                lg:h-[560px]
+                            "
+            />
+
+          </div>
+
         </div>
 
-        {/* ================= RIGHT SIDE ================= */}
-        <div className="w-full space-y-6">
 
-          {/* Title & Description */}
+        {/* ==================================================
+                    RIGHT SIDE — WORKOUT INFORMATION
+                ================================================== */}
+
+        <div className="w-full space-y-7">
+
+          {/* ================= TITLE ================= */}
+
           <div>
-            <h1 className="
-              text-2xl
-              sm:text-3xl
-              lg:text-4xl
-              font-bold
-              uppercase
-              leading-tight
-              mb-3
-            ">
+
+            <h1
+              className="
+                                text-2xl
+                                font-extrabold
+                                uppercase
+                                leading-tight
+                                sm:text-3xl
+                                lg:text-4xl
+                            "
+            >
               {workout.name}
             </h1>
 
-            <p className="
-              text-sm
-              sm:text-base
-              text-base-content/70
-              leading-relaxed
-            ">
+            <p
+              className="
+                                mt-3
+                                text-sm
+                                leading-6
+                                text-gray-400
+                                sm:text-base
+                                sm:leading-7
+                            "
+            >
               {workout.description}
             </p>
+
           </div>
 
-          {/* ================= CATEGORY TAGS ================= */}
-          <div className="flex flex-wrap gap-2 sm:gap-3">
+
+          {/* ================= MUSCLE GROUPS ================= */}
+
+          <div className="flex flex-wrap gap-2">
+
             {workout.muscleGroups.map((muscle) => (
               <span
                 key={muscle}
                 className="
-                  badge
-                  bg-lime-400
-                  text-black
-                  px-3
-                  sm:px-4
-                  py-3
-                  text-xs
-                  sm:text-sm
-                "
+                                    rounded-full
+                                    bg-[#C2F800]
+                                    px-3
+                                    py-1.5
+                                    text-xs
+                                    font-semibold
+                                    text-black
+                                    sm:px-4
+                                    sm:text-sm
+                                "
               >
                 {muscle}
               </span>
             ))}
+
           </div>
 
-          {/* ================= KEY SPECS ================= */}
-          <div>
 
-            <div className="
-              rounded-xl
-              sm:rounded-2xl
-              bg-gray-700
-              text-white
-              overflow-hidden
-            ">
+          {/* ================= WORKOUT SPECS ================= */}
 
-              {/* Equipment */}
-              <div className="
-                grid
-                grid-cols-2
-                gap-3
-                p-3
-                sm:p-4
-                border-b
-                border-gray-600
-                text-sm
-                sm:text-base
-              ">
-                <span className="font-semibold">
-                  EQUIPMENT
-                </span>
+          <div className="overflow-hidden rounded-2xl bg-[#1C1F26]">
 
-                <span className="break-words">
-                  {workout.equipment}
-                </span>
-              </div>
+            {/* Equipment */}
+            <div className="grid grid-cols-2 gap-4 border-b border-gray-700 px-4 py-4 sm:px-5">
+              <span className="text-xs font-semibold text-gray-400 sm:text-sm">
+                EQUIPMENT
+              </span>
 
-              {/* Difficulty */}
-              <div className="
-                grid
-                grid-cols-2
-                gap-3
-                p-3
-                sm:p-4
-                border-b
-                border-gray-600
-                text-sm
-                sm:text-base
-              ">
-                <span className="font-semibold">
-                  DIFFICULTY
-                </span>
-
-                <span>
-                  {workout.difficulty}
-                </span>
-              </div>
-
-              {/* Sets */}
-              <div className="
-                grid
-                grid-cols-2
-                gap-3
-                p-3
-                sm:p-4
-                border-b
-                border-gray-600
-                text-sm
-                sm:text-base
-              ">
-                <span className="font-semibold">
-                  SETS
-                </span>
-
-                <span>
-                  {workout.sets}
-                </span>
-              </div>
-
-              {/* Reps */}
-              <div className="
-                grid
-                grid-cols-2
-                gap-3
-                p-3
-                sm:p-4
-                border-b
-                border-gray-600
-                text-sm
-                sm:text-base
-              ">
-                <span className="font-semibold">
-                  REPS
-                </span>
-
-                <span>
-                  {workout.reps}
-                </span>
-              </div>
-
-              {/* Duration */}
-              <div className="
-                grid
-                grid-cols-2
-                gap-3
-                p-3
-                sm:p-4
-                border-b
-                border-gray-600
-                text-sm
-                sm:text-base
-              ">
-                <span className="font-semibold">
-                  DURATION
-                </span>
-
-                <span>
-                  {workout.duration} min
-                </span>
-              </div>
-
-              {/* Calories */}
-              <div className="
-                grid
-                grid-cols-2
-                gap-3
-                p-3
-                sm:p-4
-                border-b
-                border-gray-600
-                text-sm
-                sm:text-base
-              ">
-                <span className="font-semibold">
-                  CALORIES
-                </span>
-
-                <span>
-                  {workout.caloriesBurned} kcal
-                </span>
-              </div>
-
-              {/* Rating */}
-              <div className="
-                grid
-                grid-cols-2
-                gap-3
-                p-3
-                sm:p-4
-                text-sm
-                sm:text-base
-              ">
-                <span className="font-semibold">
-                  RATING
-                </span>
-
-                <span>
-                  ⭐ {workout.rating}
-                </span>
-              </div>
-
+              <span className="text-right text-sm font-medium sm:text-base">
+                {workout.equipment}
+              </span>
             </div>
+
+
+            {/* Difficulty */}
+            <div className="grid grid-cols-2 gap-4 border-b border-gray-700 px-4 py-4 sm:px-5">
+              <span className="text-xs font-semibold text-gray-400 sm:text-sm">
+                DIFFICULTY
+              </span>
+
+              <span className="text-right text-sm font-medium sm:text-base">
+                {workout.difficulty}
+              </span>
+            </div>
+
+
+            {/* Sets */}
+            <div className="grid grid-cols-2 gap-4 border-b border-gray-700 px-4 py-4 sm:px-5">
+              <span className="text-xs font-semibold text-gray-400 sm:text-sm">
+                SETS
+              </span>
+
+              <span className="text-right text-sm font-medium sm:text-base">
+                {workout.sets}
+              </span>
+            </div>
+
+
+            {/* Reps */}
+            <div className="grid grid-cols-2 gap-4 border-b border-gray-700 px-4 py-4 sm:px-5">
+              <span className="text-xs font-semibold text-gray-400 sm:text-sm">
+                REPS
+              </span>
+
+              <span className="text-right text-sm font-medium sm:text-base">
+                {workout.reps}
+              </span>
+            </div>
+
+
+            {/* Duration */}
+            <div className="grid grid-cols-2 gap-4 border-b border-gray-700 px-4 py-4 sm:px-5">
+              <span className="text-xs font-semibold text-gray-400 sm:text-sm">
+                DURATION
+              </span>
+
+              <span className="text-right text-sm font-medium sm:text-base">
+                {workout.duration} min
+              </span>
+            </div>
+
+
+            {/* Calories */}
+            <div className="grid grid-cols-2 gap-4 border-b border-gray-700 px-4 py-4 sm:px-5">
+              <span className="text-xs font-semibold text-gray-400 sm:text-sm">
+                CALORIES
+              </span>
+
+              <span className="text-right text-sm font-medium sm:text-base">
+                {workout.caloriesBurned} kcal
+              </span>
+            </div>
+
+
+            {/* Rating */}
+            <div className="grid grid-cols-2 gap-4 px-4 py-4 sm:px-5">
+              <span className="text-xs font-semibold text-gray-400 sm:text-sm">
+                RATING
+              </span>
+
+              <span className="text-right text-sm font-medium sm:text-base">
+                ⭐ {workout.rating}
+              </span>
+            </div>
+
           </div>
+
 
           {/* ================= INSTRUCTIONS ================= */}
+
           <div>
-            <h2 className="
-              text-xl
-              sm:text-2xl
-              font-bold
-              mb-4
-            ">
+
+            <h2 className="mb-5 text-xl font-bold sm:text-2xl">
               INSTRUCTIONS
             </h2>
 
             <ol className="space-y-4">
+
               {workout.instructions.map(
                 (instruction, index) => (
+
                   <li
                     key={index}
-                    className="flex gap-3 sm:gap-4 items-start"
+                    className="flex items-start gap-3 sm:gap-4"
                   >
+
                     {/* Number */}
-                    <span className="
-                      flex-shrink-0
-                      w-7
-                      h-7
-                      sm:w-8
-                      sm:h-8
-                      rounded-full
-                      bg-lime-400
-                      text-black
-                      flex
-                      items-center
-                      justify-center
-                      font-bold
-                      text-sm
-                    ">
+                    <span
+                      className="
+                                                flex
+                                                h-7
+                                                w-7
+                                                shrink-0
+                                                items-center
+                                                justify-center
+                                                rounded-full
+                                                bg-[#C2F800]
+                                                text-sm
+                                                font-bold
+                                                text-black
+                                                sm:h-8
+                                                sm:w-8
+                                            "
+                    >
                       {index + 1}
                     </span>
 
+
                     {/* Instruction */}
-                    <p className="
-                      text-sm
-                      sm:text-base
-                      leading-relaxed
-                      pt-1
-                    ">
+                    <p
+                      className="
+                                                pt-0.5
+                                                text-sm
+                                                leading-6
+                                                text-gray-300
+                                                sm:text-base
+                                                sm:leading-7
+                                            "
+                    >
                       {instruction}
                     </p>
+
                   </li>
+
                 )
               )}
+
             </ol>
+
           </div>
 
-          <div>
-            {/* ================= CTA BUTTONS ================= */}
+
+          {/* ================= ACTIONS ================= */}
+
+          <div className="pt-1">
             <WorkoutActions workout={workout} />
           </div>
 
-
         </div>
+
       </div>
+
     </section>
   );
 };

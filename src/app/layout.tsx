@@ -6,6 +6,7 @@ import Banner from "./components/Banner";
 import Library from "./components/home-page/Library";
 import FitLogProvider from "@/context/FitLogContext";
 import { ToastContainer } from "react-toastify";
+import Footer from "./components/Footer";
 
 
 const geistSans = Geist({
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <FitLogProvider>
           <Navbar />
           {children}
+          <Footer/>
         </FitLogProvider>
         <ToastContainer  />
 
