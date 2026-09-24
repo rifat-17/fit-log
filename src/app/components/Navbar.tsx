@@ -1,28 +1,32 @@
 "use client";
-import Image from 'next/image';
-import Link from 'next/link';
 
-import Logo from '@/assets/logo.png';
-import { useFitlog } from '@/context/FitLogContext';
+import Image from "next/image";
+import Link from "next/link";
 
-
+import Logo from "@/assets/logo.png";
+import { useFitlog } from "@/context/FitLogContext";
 
 const Navbar = () => {
-
   const { planWorkouts, savedWorkouts } = useFitlog();
-  
 
-  // Navigation links
+  /* ================= NAVIGATION LINKS ================= */
+
   const navLinks = (
     <>
       <li>
-        <Link href="/" className="hover:text-[#ccff00]">
+        <Link
+          href="/"
+          className="hover:text-[#ccff00]"
+        >
           Workouts
         </Link>
       </li>
 
       <li>
-        <Link href="/my-plan" className="hover:text-[#ccff00]">
+        <Link
+          href="/my-plan"
+          className="hover:text-[#ccff00]"
+        >
           My Plan
         </Link>
       </li>
@@ -31,17 +35,19 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-[#15171D] shadow-md">
-      <div className="navbar container mx-auto px-4">
 
-        {/* ================= LEFT: LOGO + MOBILE MENU ================= */}
+      <div className="navbar container mx-auto min-h-16 px-3 sm:px-4">
+
+        {/* ================= LEFT ================= */}
         <div className="navbar-start">
 
           {/* Mobile Menu */}
           <div className="dropdown lg:hidden">
+
             <div
               tabIndex={0}
               role="button"
-              className="btn btn-ghost btn-sm mr-1"
+              className="btn btn-ghost btn-sm mr-1 p-2"
               aria-label="Open menu"
             >
               <svg
@@ -63,21 +69,24 @@ const Navbar = () => {
             <ul
               tabIndex={-1}
               className="
-                menu
-                menu-sm
-                dropdown-content
-                z-50
-                mt-3
-                w-52
-                rounded-box
-                bg-[#222630]
-                p-2
-                shadow-xl
-              "
+                                menu
+                                menu-sm
+                                dropdown-content
+                                z-50
+                                mt-3
+                                w-48
+                                rounded-xl
+                                bg-[#222630]
+                                p-2
+                                text-white
+                                shadow-xl
+                            "
             >
               {navLinks}
             </ul>
+
           </div>
+
 
           {/* Logo */}
           <Link
@@ -87,58 +96,73 @@ const Navbar = () => {
             <Image
               src={Logo}
               alt="FitLog Logo"
-              width={40}
-              height={40}
+              width={38}
+              height={38}
               priority
+              className="sm:h-10 sm:w-10"
             />
 
-            <span className="text-lg font-bold sm:text-xl">
+            <span className="text-base font-bold sm:text-xl">
               FIT LOG
             </span>
           </Link>
+
         </div>
 
-        {/* ================= CENTER: DESKTOP NAVIGATION ================= */}
+
+        {/* ================= CENTER ================= */}
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal gap-2">
+
+          <ul className="menu menu-horizontal gap-2 text-sm font-medium">
             {navLinks}
           </ul>
+
         </div>
 
-        {/* ================= RIGHT: PLAN + SAVED ================= */}
+
+        {/* ================= RIGHT ================= */}
         <div className="navbar-end">
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3">
 
-            {/* My Plan */}
+            {/* Plan */}
             <Link
               href="/my-plan"
               className="
-                badge
-                bg-[#ccff00]
-                px-3
-                py-3
-                font-semibold
-                text-black
-                hover:bg-[#b4e600]
-              "
+                                badge
+                                border-none
+                                bg-[#ccff00]
+                                px-2.5
+                                py-3
+                                text-xs
+                                font-semibold
+                                text-black
+                                transition
+                                hover:bg-[#b4e600]
+                                sm:px-3
+                                sm:text-sm
+                            "
             >
               Plan ({planWorkouts.length})
             </Link>
+
 
             {/* Saved */}
             <Link
               href="/my-plan"
               className="
-                badge
-                badge-outline
-                px-3
-                py-3
-                font-semibold
-                text-white
-                hover:border-[#ccff00]
-                hover:text-[#ccff00]
-              "
+                                badge
+                                px-2.5
+                                py-3
+                                text-xs
+                                font-semibold
+                                text-white
+                                transition
+                                hover:border-[#ccff00]
+                                hover:text-[#ccff00]
+                                sm:px-3
+                                sm:text-sm
+                            "
             >
               Saved ({savedWorkouts.length})
             </Link>
@@ -146,7 +170,9 @@ const Navbar = () => {
           </div>
 
         </div>
+
       </div>
+
     </header>
   );
 };
