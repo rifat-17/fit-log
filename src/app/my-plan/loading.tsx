@@ -5,10 +5,6 @@ const Loading = () => {
                 <h1 className="text-3xl font-bold sm:text-4xl">
                     MY PLAN
                 </h1>
-
-                <p className="mt-2 text-sm text-gray-400 sm:text-base">
-                    Loading workouts…
-                </p>
             </div>
 
             <div className="flex min-h-[300px] items-center justify-center">
